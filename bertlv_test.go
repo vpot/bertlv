@@ -51,24 +51,24 @@ func TestNewBerTLV(t *testing.T) {
 		},
 	}
 
-	for _, tc := range tests {
+	for i, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
 			received, err := NewBerTLV(tc.inputTag, tc.inputValue)
 
 			if err != nil && !tc.expectError {
-				t.Errorf("Expected: no error, got: error(%v)", err.Error())
+				t.Errorf("Expected(%d): no error, got: error(%v)", i, err.Error())
 
 				return
 			}
 
 			if err == nil && tc.expectError {
-				t.Errorf("Expected: error, got: no error")
+				t.Errorf("Expected(%d): error, got: no error", i)
 
 				return
 			}
 
 			if !cmp.Equal(received, tc.expected, cmp.AllowUnexported(BerTLV{})) {
-				t.Errorf("Expected: '%v', got: '%v'", tc.expected, received)
+				t.Errorf("Expected(%d): '%v', got: '%v'", i, tc.expected, received)
 			}
 		})
 	}
